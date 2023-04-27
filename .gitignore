@@ -1,5 +1,5 @@
-Face.jpg
-MultiFaces.jpg
-Camu.png
 test.ipynb
 test_pics/
+alexnet-mask-detector.ipynb
+mobilenetv3-mask-detector.ipynb
+old-mobilenet-detector.ipynb

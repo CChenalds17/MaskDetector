@@ -5,7 +5,7 @@ import serial
 import time
 
 # Connect to Arduino
-ser = serial.Serial('COM7', 9600, timeout=1)
+# ser = serial.Serial('COM7', 9600, timeout=1)
 
 # Load mask detector model
 model = load_model('saved_models/MobileNetModel.h5')
@@ -26,7 +26,7 @@ def detect(frame):
     return out_locations
 
 # Make sure sprayer is off
-ser.write(b'L')
+# ser.write(b'L')
 prev_unmasked_flag = False
 curr_unmasked_flag = False
 
@@ -59,10 +59,10 @@ while video_capture.isOpened():
             data = data.astype('float')/255.0
             data = np.reshape(data, [1, SIZE[0], SIZE[1], 3])
             pred = model.predict(data) # [unmasked, masked]
-            unmasked_confidence = pred[0][0]
-            masked_confidence = pred[0][1]
+            masked_confidence = pred[0][1] # pred[0][0]
+            unmasked_confidence = pred[0][0] # 1 - masked_confidence
             # If unmasked:
-            if unmasked_confidence >= masked_confidence:
+            if unmasked_confidence > masked_confidence:
                 label = 'UNMASKED: {:.2%}'.format(unmasked_confidence)
                 color = (0, 0, 255) # (B, G, R)
                 curr_unmasked_flag = True
@@ -88,12 +88,12 @@ while video_capture.isOpened():
     # If changed to an unmasked face
     if curr_unmasked_flag != prev_unmasked_flag and curr_unmasked_flag:
         # Trigger relay to spray water
-        ser.write(b'H')
+        # ser.write(b'H')
         print('SPRAY')
     # If changed to all masked
     elif curr_unmasked_flag != prev_unmasked_flag and not curr_unmasked_flag:
         # Turn off relay
-        ser.write(b'L')
+        # ser.write(b'L')
         print('STOP SPRAYING')
     prev_unmasked_flag = curr_unmasked_flag
 
