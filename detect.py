@@ -5,7 +5,7 @@ import serial
 import time
 
 # Connect to Arduino
-# ser = serial.Serial('COM7', 9600, timeout=1)
+ser = serial.Serial('COM7', 9600, timeout=1)
 
 # Load mask detector model
 model = load_model('saved_models/MobileNetModel.h5')
@@ -26,7 +26,7 @@ def detect(frame):
     return out_locations
 
 # Make sure sprayer is off
-# ser.write(b'L')
+ser.write(b'L')
 prev_unmasked_flag = False
 curr_unmasked_flag = False
 
@@ -88,12 +88,12 @@ while video_capture.isOpened():
     # If changed to an unmasked face
     if curr_unmasked_flag != prev_unmasked_flag and curr_unmasked_flag:
         # Trigger relay to spray water
-        # ser.write(b'H')
+        ser.write(b'H')
         print('SPRAY')
     # If changed to all masked
     elif curr_unmasked_flag != prev_unmasked_flag and not curr_unmasked_flag:
         # Turn off relay
-        # ser.write(b'L')
+        ser.write(b'L')
         print('STOP SPRAYING')
     prev_unmasked_flag = curr_unmasked_flag
 
