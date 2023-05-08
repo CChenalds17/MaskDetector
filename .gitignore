@@ -3,3 +3,7 @@ test_pics/
 alexnet-mask-detector.ipynb
 mobilenetv3-mask-detector.ipynb
 old-mobilenet-detector.ipynb
+GRAY_1
+RGB_1
+RGB_2
+RGB_3

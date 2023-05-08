@@ -5,7 +5,7 @@ import serial
 import time
 
 # Connect to Arduino
-ser = serial.Serial('COM7', 9600, timeout=1)
+ser = serial.Serial('COM3', 9600, timeout=1)
 
 # Load mask detector model
 model = load_model('saved_models/MobileNetModel.h5')
